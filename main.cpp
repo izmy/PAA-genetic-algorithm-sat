@@ -4,7 +4,7 @@
 #include "CKlauzule.h"
 #include "CGenerace.h"
 
-#define SOUBOR "v10_c25_1.cnf"
+#define SOUBOR "v20_c25_1.cnf"
 
 using namespace std;
 
@@ -20,10 +20,11 @@ int main() {
     int pocetPromennych = 0;
     int pocetKlauzuli = 0;
 
-    int velikostPopulace = 6;
-    int pocetGeneraci = 7;
+    int velikostPopulace = 100;
+    int pocetGeneraci = 30;
     double pravdepodobnostKrizeni = 0.6;
-    double pravdepodobnostMutace = 0.9;
+    double pravdepodobnostMutace = 0.3;
+    int elitismus = 1;
 
     double timeSum = 0;
     int count = 0;
@@ -78,8 +79,8 @@ int main() {
 
     CGenerace * generace = new CGenerace(pocetPromennych, velikostPopulace, pocetKlauzuli, klauzule, vahy);
     for (int i = 0; i < pocetGeneraci; ++i) {
-        generace->evoluce(pravdepodobnostKrizeni, pravdepodobnostMutace);
-        cout << i << ". " << generace->splneneKlauzule() << "/" << pocetKlauzuli << endl;
+        generace->evoluce(pravdepodobnostKrizeni, pravdepodobnostMutace, elitismus);
+        cout << i + 1 << ". " << generace->splneneKlauzule() << "/" << pocetKlauzuli << endl;
     }
 
     cout << "X = {";

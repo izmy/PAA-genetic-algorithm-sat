@@ -43,6 +43,7 @@ void CChromozom::fitness(int pocetKlauzuli, CKlauzule klauzule[], int vahy[]) {
 
     int pocetSplnenychKlauzuli = 0;
     bool splnenaKlauzule = 0;
+    fitnessHodnota = 0;
 
 
     for (int i = 0; i < pocetKlauzuli; ++i) {
