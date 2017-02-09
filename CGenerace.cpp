@@ -161,6 +161,10 @@ int CGenerace::nejlepsiVaha() {
     return listChromozomu.front()->getMaxVaha();
 }
 
+int CGenerace::nejlepsiFitness() {
+    return listChromozomu.front()->getFitness();
+}
+
 int CGenerace::splneneKlauzule() {
     return listChromozomu.front()->getSplneneKlauzule();
 }

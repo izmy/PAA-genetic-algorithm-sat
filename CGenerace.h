@@ -30,6 +30,7 @@ public:
     void vypsatGeneraci();
     void vypsatNejlepsiReseni();
     int nejlepsiVaha();
+    int nejlepsiFitness();
     int splneneKlauzule();
 };
 
