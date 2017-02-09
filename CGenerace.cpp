@@ -51,6 +51,7 @@ void CGenerace::selekce(int elitismus) {
         for (int i = 0; i < elitismus; ++i) {
             CChromozom * tmpChromozom = new CChromozom(delkaChromozomu);
             tmpChromozom->kopie( listChromozomu[i] );
+            tmpChromozom->fitness(pocetKlauzuli, klauzule, vahy);
             tmpList.push_back( tmpChromozom );
         }
     }
@@ -83,7 +84,7 @@ void CGenerace::selekce(int elitismus) {
 }
 
 void CGenerace::krizeni(double pravdepodobnostKrizeni) {
-    vector<CChromozom *> tmpList = listChromozomu;
+    vector<CChromozom *> tmpList;
     int pocetKrizeni = (int) (velikostPopulace * pravdepodobnostKrizeni);
 
     for (int i = 0; i < pocetKrizeni; ++i) {
@@ -115,26 +116,28 @@ void CGenerace::krizeni(double pravdepodobnostKrizeni) {
         tmpList.push_back(krizeni2);
     }
 
-    sort (tmpList.begin(), tmpList.end(), compareChromozoms);
-
-    listChromozomu.clear();
-    for (int i = 0; i < velikostPopulace; ++i) {
+    for (int i = 0; i < tmpList.size(); ++i) {
         listChromozomu.push_back(tmpList[i]);
     }
+
+    tmpList.clear();
+
+    sort (listChromozomu.begin(), listChromozomu.end(), compareChromozoms);
+
+    while ( listChromozomu.size() > velikostPopulace ) {
+        listChromozomu.pop_back();
+    }
+
 }
 
 void CGenerace::mutace(double pravdepodobnostMutace, int elitismus) {
 
-    for( vector<CChromozom *>::const_iterator chromozom = listChromozomu.begin(); chromozom != listChromozomu.end(); ++chromozom) {
-        if ( elitismus == 0 ) {
-            double nahodneCislo = ((double) rand() / (RAND_MAX));
-            int bod = rand() % delkaChromozomu;
-            if (nahodneCislo < pravdepodobnostMutace) {
-                (*chromozom)->setGen(bod, !(*chromozom)->getGen(bod));
-                (*chromozom)->fitness(pocetKlauzuli, klauzule, vahy);
-            }
-        } else {
-            elitismus--;
+    for (int i = elitismus; i < listChromozomu.size(); ++i) {
+        double nahodneCislo = ((double) rand() / (RAND_MAX));
+        int bod = rand() % delkaChromozomu;
+        if (nahodneCislo < pravdepodobnostMutace) {
+            listChromozomu[i]->setGen(bod, !listChromozomu[i]->getGen(bod));
+            listChromozomu[i]->fitness(pocetKlauzuli, klauzule, vahy);
         }
     }
     sort (listChromozomu.begin(), listChromozomu.end(), compareChromozoms);
